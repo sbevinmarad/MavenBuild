@@ -40,7 +40,7 @@ jobs:
     steps:
       - name: Perform code Deployment
         run: |
-          if [ "${{ github.ref_name }} ];then
+          if [ "${{ github.ref_name }}" ];then
             echo "Proceeding with Production Deployment"
           else
             echo "Proceeding with Development Deployment"
