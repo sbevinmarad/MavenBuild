@@ -31,8 +31,12 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      
       run: "mvn -B ${mavenGoal} --file ${buildScript}"
+    - uses: actions/upload-artifact@v3
+      with:
+        name: buildArtifact
+        path: target/*.war
+
 
   deploy:
     needs: build
@@ -47,8 +51,11 @@ jobs:
 
         run: |
           echo "Proceeding with staging deployment"
-
-        
+      - uses: actions/download-artifact@v3
+        with:
+          name: downloadArtifact
+          path: .github/workflow
+              
           #if [ "${{ github.ref_name }}" == "master" ];then
             #echo "Proceeding with Production Deployment"
           #else
