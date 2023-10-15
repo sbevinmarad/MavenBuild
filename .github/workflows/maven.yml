@@ -38,10 +38,19 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Perform code Deployment
+      - name: Production Deployment
+        if: ${{ githun.ref_name }} == "master" 
         run: |
-          if [ "${{ github.ref_name }}" == "master" ];then
-            echo "Proceeding with Production Deployment"
-          else
-            echo "Proceeding with Development Deployment"
-          fi
+          echo "Proceedig with Production Deployment"
+      - name: Staging Deployment
+        if: ${{ githun.ref_name }} == "master"
+
+        run: |
+          echo "Proceeding with staging deployment"
+
+        
+          #if [ "${{ github.ref_name }}" == "master" ];then
+            #echo "Proceeding with Production Deployment"
+          #else
+            #echo "Proceeding with Development Deployment"
+          #fi
