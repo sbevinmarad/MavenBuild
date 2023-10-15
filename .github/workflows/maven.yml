@@ -42,19 +42,22 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Production Deployment
-        if: ${{ github.ref_name == 'master' }}
-        run: |
-          echo "Proceedig with Production Deployment"
-      - name: Staging Deployment
-        if: ${{ github.ref_name == 'devops' }}
+      #- name: Production Deployment
+      #  if: ${{ github.ref_name == 'master' }}
+      #  run: |
+       #   echo "Proceedig with Production Deployment"
+      #- name: Staging Deployment
+      #  if: ${{ github.ref_name == 'devops' }}
 
-        run: |
-          echo "Proceeding with staging deployment"
+      #  run: |
+      #    echo "Proceeding with staging deployment"
       - uses: actions/download-artifact@v3
         with:
-          name: downloadArtifact
-          path: .github/workflow
+          name: buildArtifact
+      - name: Production Deployment
+        run: |
+          ls -lart
+         # path: .github/workflow
               
           #if [ "${{ github.ref_name }}" == "master" ];then
             #echo "Proceeding with Production Deployment"
