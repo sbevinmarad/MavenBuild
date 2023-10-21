@@ -5,7 +5,9 @@
 # They are provided by a third-party and are governed by
 # separate terms of service, privacy policy, and support
 # documentation.
+
 name: Java CI with Maven
+
 on:
   push:
     branches: [ "master" ]
@@ -17,7 +19,6 @@ env:
   mavenGoal: "clean install"
 jobs:
   build:
-
     runs-on: ubuntu-latest
     env:
       buildScript: "pom.xml"
@@ -31,42 +32,23 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: "mvn -B ${mavenGoal} --file ${buildScript}"
-     - name: SonarQube Scan
+    - name: SonarQube Scan
       uses: sonarsource/sonarqube-scan-action@master
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        SONAR_ROOT_CERT: ${{ secrets.SONAR_ROOT_CERT }}
-    
     - uses: actions/upload-artifact@v3
       with:
-        name: buildArtifact
-        path: target/*.war
-
-
+       name: buildArtifact
+       path: target/*.war      
+      
   deploy:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      #- name: Production Deployment
-      #  if: ${{ github.ref_name == 'master' }}
-      #  run: |
-       #   echo "Proceedig with Production Deployment"
-      #- name: Staging Deployment
-      #  if: ${{ github.ref_name == 'devops' }}
-
-      #  run: |
-      #    echo "Proceeding with staging deployment"
-      - uses: actions/download-artifact@v3
-        with:
-          name: buildArtifact
-      - name: Production Deployment
-        run: |
-          ls -lart
-         # path: .github/workflow
-              
-          #if [ "${{ github.ref_name }}" == "master" ];then
-            #echo "Proceeding with Production Deployment"
-          #else
-            #echo "Proceeding with Development Deployment"
-          #fi
+     - uses: actions/download-artifact@v3
+       with:
+         name: buildArtifact
+     - name: Production Deployment
+       run: |
+          ls -lart 
